@@ -1,0 +1,31 @@
+const text = "Genpact is my first company. I have been an employee of Genpact from August 2022 to March 2024. I was hired as a consultant and had 1.5 years of experience as a Salesforce developer.";
+
+const typingTextElement = document.getElementById("typing-text");
+
+const options = {
+    rootMargin: '0px',
+    threshold: 0.5 // Trigger when 50% of the element is visible
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            typeWriter(text);
+            observer.unobserve(entry.target); // Stop observing once text is typed
+        }
+    });
+}, options);
+
+observer.observe(typingTextElement);
+
+function typeWriter(text) {
+    let index = 0;
+    const interval = setInterval(function() {
+        if (index < text.length) {
+            typingTextElement.textContent += text.charAt(index);
+            index++;
+        } else {
+            clearInterval(interval); // Stop the interval when all text is typed
+        }
+    }, 50);
+}
